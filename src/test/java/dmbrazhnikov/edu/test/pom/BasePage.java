@@ -21,13 +21,13 @@ public abstract class BasePage {
         element.click();
     }
 
-    public final void sendKeys(By locator, String text) {
+    public final void doSendKeys(By locator, String text) {
         WebElement element = driver.findElement(locator);
         new WebDriverWait(driver, 5).until(driver -> (element.isDisplayed()));
         element.sendKeys(text);
     }
 
-    final void scrollTo(By locator) {
+    public final void scrollTo(By locator) {
         scrollTo(driver.findElement(locator));
     }
 
