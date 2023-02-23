@@ -1,11 +1,12 @@
-package dmbrazhnikov.edu.test.pom;
+package dmbrazhnikov.edu.test.selenium.pom;
 
-import dmbrazhnikov.edu.test.model.ClientInfoParams;
+import dmbrazhnikov.edu.test.model.ClientInfo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
@@ -27,18 +28,18 @@ public class ClientInfoPage extends BasePage {
         super(driver);
     }
 
-    public void fillInClientInfo(ClientInfoParams clientInfoParams) {
-        doSendKeys(NAME_INPUT, clientInfoParams.getName());
-        driver.findElement(LAST_NAME_INPUT).sendKeys(clientInfoParams.getLastName());
-        driver.findElement(ADDRESS_INPUT).sendKeys(clientInfoParams.getAddress());
-        clientInfoParams.setSubwayStationName(selectRandomSubwayStation());
-        driver.findElement(PHONE_NUMBER_INPUT).sendKeys(clientInfoParams.getPhoneNum());
+    public void fillInClientInfo(ClientInfo clientInfo) {
+        doSendKeys(NAME_INPUT, clientInfo.getFirstName());
+        driver.findElement(LAST_NAME_INPUT).sendKeys(clientInfo.getLastName());
+        driver.findElement(ADDRESS_INPUT).sendKeys(clientInfo.getAddress());
+        clientInfo.setSubwayStationName(selectRandomSubwayStation());
+        driver.findElement(PHONE_NUMBER_INPUT).sendKeys(clientInfo.getPhoneNum());
     }
 
     public String selectRandomSubwayStation() {
         String subwayStationName = "";
         doClick(SUBWAY_STATION_INPUT);
-        new WebDriverWait(driver, 5).until(driver -> (driver.findElement(DROPDOWN_MENU).isDisplayed()));
+        new WebDriverWait(driver, Duration.ofSeconds(5L)).until(driver -> (driver.findElement(DROPDOWN_MENU).isDisplayed()));
         List<WebElement> subwayStationElements = driver.findElements(SUBWAY_STATION_ITEM);
         if (subwayStationElements.size() > 0) {
             WebElement subwayStationElement = subwayStationElements.get(new Random().nextInt(subwayStationElements.size()));

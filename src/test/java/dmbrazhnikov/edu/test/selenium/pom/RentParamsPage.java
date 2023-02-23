@@ -1,10 +1,12 @@
-package dmbrazhnikov.edu.test.pom;
+package dmbrazhnikov.edu.test.selenium.pom;
 
 import dmbrazhnikov.edu.test.model.ScooterColor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 
 public class RentParamsPage extends BasePage {
@@ -36,7 +38,7 @@ public class RentParamsPage extends BasePage {
     public void setRentalPeriod(String period) {
         doClick(By.className("Dropdown-control"));
         By dropdownMenu = By.className("Dropdown-menu");
-        new WebDriverWait(driver, 5).until(driver -> (driver.findElement(dropdownMenu).isDisplayed()));
+        new WebDriverWait(driver, Duration.ofSeconds(5L)).until(driver -> (driver.findElement(dropdownMenu).isDisplayed()));
         doClick(By.xpath("//div[@class='Dropdown-option' and text()='" + period + "']"));
     }
 

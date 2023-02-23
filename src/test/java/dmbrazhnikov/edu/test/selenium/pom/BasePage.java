@@ -1,8 +1,9 @@
-package dmbrazhnikov.edu.test.pom;
+package dmbrazhnikov.edu.test.selenium.pom;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 
@@ -21,19 +22,19 @@ public abstract class BasePage {
     }
 
     public final void doClick(WebElement element) {
-        new WebDriverWait(driver, 5).until(driver -> (element.isDisplayed()));
+        new WebDriverWait(driver, Duration.ofSeconds(5L)).until(driver -> (element.isDisplayed()));
         element.click();
     }
 
     public final void doSendKeys(By locator, String text) {
         WebElement element = driver.findElement(locator);
-        new WebDriverWait(driver, 5).until(driver -> (element.isDisplayed()));
+        new WebDriverWait(driver, Duration.ofSeconds(5L)).until(driver -> (element.isDisplayed()));
         element.sendKeys(text);
     }
 
     public final void doSendKeys(By locator, Keys key) {
         WebElement element = driver.findElement(locator);
-        new WebDriverWait(driver, 5).until(driver -> (element.isDisplayed()));
+        new WebDriverWait(driver, Duration.ofSeconds(5L)).until(driver -> (element.isDisplayed()));
         element.sendKeys(key);
     }
 
@@ -48,13 +49,13 @@ public abstract class BasePage {
 
     public final String getElementValue(By locator) {
         WebElement element = driver.findElement(locator);
-        new WebDriverWait(driver, 5).until(driver -> (element.isDisplayed()));
+        new WebDriverWait(driver, Duration.ofSeconds(5L)).until(driver -> (element.isDisplayed()));
         return element.getAttribute("value");
     }
 
     public final void waitForDisplayed(By locator) {
         WebElement element = driver.findElement(locator);
-        new WebDriverWait(driver, 5).until(driver -> (element.isDisplayed()));
+        new WebDriverWait(driver, Duration.ofSeconds(5L)).until(driver -> (element.isDisplayed()));
     }
 
     public final void getRifOfCookiesPopup() {

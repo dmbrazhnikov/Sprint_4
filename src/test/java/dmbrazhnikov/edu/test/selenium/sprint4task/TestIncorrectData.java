@@ -1,11 +1,11 @@
-package dmbrazhnikov.edu.test.uitest.sprint4task;
+package dmbrazhnikov.edu.test.selenium.sprint4task;
 
-import dmbrazhnikov.edu.test.model.ClientInfoParams;
+import dmbrazhnikov.edu.test.model.ClientInfo;
 import dmbrazhnikov.edu.test.model.ScooterColor;
-import dmbrazhnikov.edu.test.pom.ClientInfoPage;
-import dmbrazhnikov.edu.test.pom.HomePage;
-import dmbrazhnikov.edu.test.pom.RentParamsPage;
-import dmbrazhnikov.edu.test.uitest.BaseUITest;
+import dmbrazhnikov.edu.test.selenium.pom.ClientInfoPage;
+import dmbrazhnikov.edu.test.selenium.pom.HomePage;
+import dmbrazhnikov.edu.test.selenium.pom.RentParamsPage;
+import dmbrazhnikov.edu.test.selenium.BaseUITest;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.*;
@@ -20,9 +20,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import static dmbrazhnikov.edu.test.pom.ClientInfoPage.*;
-import static dmbrazhnikov.edu.test.pom.ConfirmModal.CONFIRM_HEADER;
-import static dmbrazhnikov.edu.test.pom.RentParamsPage.DELIVERY_DATE_INPUT;
+import static dmbrazhnikov.edu.test.selenium.pom.ClientInfoPage.*;
+import static dmbrazhnikov.edu.test.selenium.pom.ConfirmModal.CONFIRM_HEADER;
+import static dmbrazhnikov.edu.test.selenium.pom.RentParamsPage.DELIVERY_DATE_INPUT;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -89,10 +89,10 @@ public class TestIncorrectData extends BaseUITest {
     void shouldDeclineIncorrectDeliveryDate() throws InterruptedException {
         // Arrange
         ClientInfoPage clientInfoPage = new ClientInfoPage(driver);
-        ClientInfoParams clientInfoParams = new ClientInfoParams("Сергей", "Кунжутович",
+        ClientInfo clientInfo = new ClientInfo("Сергей", "Кунжутович",
                 "Москва, Мерёмушки", "561612986233");
-        clientInfoPage.fillInClientInfo(clientInfoParams);
-        System.out.println("Selected subway station name is " + clientInfoParams.getSubwayStationName());
+        clientInfoPage.fillInClientInfo(clientInfo);
+        System.out.println("Selected subway station name is " + clientInfo.getSubwayStationName());
         clientInfoPage.doClick(NEXT_BTN);
         Thread.sleep(1000L);
         WebElement header = driver.findElement(RentParamsPage.HEADER);

@@ -6,9 +6,9 @@ import lombok.Setter;
 
 @RequiredArgsConstructor
 @Getter
-public class ClientInfoParams {
+public class ClientInfo {
 
-    private final String name, lastName, address, phoneNum;
+    private final String firstName, lastName, address, phoneNum;
     @Setter
     private String subwayStationName;
 }

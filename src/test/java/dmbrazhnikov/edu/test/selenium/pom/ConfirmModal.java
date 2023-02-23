@@ -1,4 +1,4 @@
-package dmbrazhnikov.edu.test.pom;
+package dmbrazhnikov.edu.test.selenium.pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

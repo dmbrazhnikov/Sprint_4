@@ -1,4 +1,4 @@
-package dmbrazhnikov.edu.test.uitest;
+package dmbrazhnikov.edu.test.selenium;
 
 import org.junit.jupiter.api.AfterAll;
 import org.openqa.selenium.chrome.ChromeDriver;

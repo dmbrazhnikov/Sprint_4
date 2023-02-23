@@ -1,16 +1,16 @@
-package dmbrazhnikov.edu.test.uitest;
+package dmbrazhnikov.edu.test.selenium;
 
-import dmbrazhnikov.edu.test.model.ClientInfoParams;
-import dmbrazhnikov.edu.test.pom.ClientInfoPage;
-import dmbrazhnikov.edu.test.pom.HomePage;
-import dmbrazhnikov.edu.test.pom.RentParamsPage;
+import dmbrazhnikov.edu.test.model.ClientInfo;
+import dmbrazhnikov.edu.test.selenium.pom.ClientInfoPage;
+import dmbrazhnikov.edu.test.selenium.pom.HomePage;
+import dmbrazhnikov.edu.test.selenium.pom.RentParamsPage;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.WebElement;
 
-import static dmbrazhnikov.edu.test.pom.ClientInfoPage.NEXT_BTN;
-import static dmbrazhnikov.edu.test.pom.RentParamsPage.HEADER;
+import static dmbrazhnikov.edu.test.selenium.pom.ClientInfoPage.NEXT_BTN;
+import static dmbrazhnikov.edu.test.selenium.pom.RentParamsPage.HEADER;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -20,8 +20,13 @@ public class TestClientInfoPage extends BaseUITest {
 
     /* @Order is crucial here. It's not the best practice, but this way things are much easier here. */
 
-    private static ClientInfoParams clientInfoParams;
+    private static ClientInfo clientInfo;
     private ClientInfoPage clientInfoPage;
+
+    @BeforeAll
+    static void setUp() {
+        configureDriver(true);
+    }
 
     @ParameterizedTest
     @Order(1)
@@ -31,16 +36,16 @@ public class TestClientInfoPage extends BaseUITest {
         // Arrange
         clientInfoPage = new ClientInfoPage(driver);
         HomePage homePage = new HomePage(driver);
-        clientInfoParams = new ClientInfoParams(name, lastName, address, phoneNum);
+        clientInfo = new ClientInfo(name, lastName, address, phoneNum);
         // Act
         driver.get(BASE_URL);
         homePage.initiateOrderWithSmallBtn();
-        clientInfoPage.fillInClientInfo(clientInfoParams);
+        clientInfoPage.fillInClientInfo(clientInfo);
         clientInfoPage.doClick(NEXT_BTN);
         WebElement header = driver.findElement(HEADER);
         Thread.sleep(5000L);
         // Assert
-        System.out.println("Selected subway station name is " + clientInfoParams.getSubwayStationName());
+        System.out.println("Selected subway station name is " + clientInfo.getSubwayStationName());
         assertTrue(header.isDisplayed(), "Header text not found");
     }
 
@@ -51,16 +56,17 @@ public class TestClientInfoPage extends BaseUITest {
     void shouldSaveCorrectClientInfo() {
         // Arrange
         RentParamsPage rentParamsPage = new RentParamsPage(driver);
+        clientInfoPage = new ClientInfoPage(driver);
         // Act
         rentParamsPage.doClick(RentParamsPage.BACK_BTN);
         // Assert
         assertAll(
                 "Grouped assertion of fields",
-                () -> assertEquals(clientInfoParams.getName(), clientInfoPage.getElementValue(ClientInfoPage.NAME_INPUT)),
-                () -> assertEquals(clientInfoParams.getLastName(), clientInfoPage.getElementValue(ClientInfoPage.LAST_NAME_INPUT)),
-                () -> assertEquals(clientInfoParams.getAddress(), clientInfoPage.getElementValue(ClientInfoPage.ADDRESS_INPUT)),
-                () -> assertEquals(clientInfoParams.getSubwayStationName(), clientInfoPage.getElementValue(ClientInfoPage.SUBWAY_STATION_INPUT)),
-                () -> assertEquals(clientInfoParams.getPhoneNum(), clientInfoPage.getElementValue(ClientInfoPage.PHONE_NUMBER_INPUT))
+                () -> assertEquals(clientInfo.getFirstName(), clientInfoPage.getElementValue(ClientInfoPage.NAME_INPUT)),
+                () -> assertEquals(clientInfo.getLastName(), clientInfoPage.getElementValue(ClientInfoPage.LAST_NAME_INPUT)),
+                () -> assertEquals(clientInfo.getAddress(), clientInfoPage.getElementValue(ClientInfoPage.ADDRESS_INPUT)),
+                () -> assertEquals(clientInfo.getSubwayStationName(), clientInfoPage.getElementValue(ClientInfoPage.SUBWAY_STATION_INPUT)),
+                () -> assertEquals(clientInfo.getPhoneNum(), clientInfoPage.getElementValue(ClientInfoPage.PHONE_NUMBER_INPUT))
         );
     }
 }

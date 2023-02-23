@@ -1,17 +1,17 @@
-package dmbrazhnikov.edu.test.uitest.sprint4task;
+package dmbrazhnikov.edu.test.selenium.sprint4task;
 
-import dmbrazhnikov.edu.test.model.ClientInfoParams;
+import dmbrazhnikov.edu.test.model.ClientInfo;
 import dmbrazhnikov.edu.test.model.ScooterColor;
-import dmbrazhnikov.edu.test.pom.ClientInfoPage;
-import dmbrazhnikov.edu.test.pom.ConfirmModal;
-import dmbrazhnikov.edu.test.pom.HomePage;
-import dmbrazhnikov.edu.test.pom.RentParamsPage;
-import dmbrazhnikov.edu.test.uitest.BaseUITest;
+import dmbrazhnikov.edu.test.selenium.pom.ClientInfoPage;
+import dmbrazhnikov.edu.test.selenium.pom.ConfirmModal;
+import dmbrazhnikov.edu.test.selenium.pom.HomePage;
+import dmbrazhnikov.edu.test.selenium.pom.RentParamsPage;
+import dmbrazhnikov.edu.test.selenium.BaseUITest;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebElement;
 
-import static dmbrazhnikov.edu.test.pom.ClientInfoPage.NEXT_BTN;
-import static dmbrazhnikov.edu.test.pom.ConfirmModal.*;
+import static dmbrazhnikov.edu.test.selenium.pom.ClientInfoPage.NEXT_BTN;
+import static dmbrazhnikov.edu.test.selenium.pom.ConfirmModal.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /* Заказ самоката. Весь флоу позитивного сценария. */
@@ -34,11 +34,11 @@ public class TestHappyPass extends BaseUITest {
     void shouldAcceptCorrectClientInfo() throws InterruptedException {
         // Arrange
         ClientInfoPage clientInfoPage = new ClientInfoPage(driver);
-        ClientInfoParams clientInfoParams = new ClientInfoParams("Митхун", "Чакраборти",
+        ClientInfo clientInfo = new ClientInfo("Митхун", "Чакраборти",
                 "Одесса, ул. Малая Арнаутская", "+79991112233");
         // Act
-        clientInfoPage.fillInClientInfo(clientInfoParams);
-        System.out.println("Selected subway station name is " + clientInfoParams.getSubwayStationName());
+        clientInfoPage.fillInClientInfo(clientInfo);
+        System.out.println("Selected subway station name is " + clientInfo.getSubwayStationName());
         clientInfoPage.doClick(NEXT_BTN);
         Thread.sleep(2000L);
         WebElement header = driver.findElement(RentParamsPage.HEADER);

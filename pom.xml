@@ -5,7 +5,7 @@
 
   <groupId>dmbrazhnikov.edu</groupId>
   <artifactId>qa-scooter</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1</version>
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
@@ -29,7 +29,13 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
-      <version>3.141.59</version>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.codeborne</groupId>
+      <artifactId>selenide</artifactId>
+      <version>6.11.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
