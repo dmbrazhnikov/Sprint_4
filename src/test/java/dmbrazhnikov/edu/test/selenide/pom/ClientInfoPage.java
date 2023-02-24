@@ -1,32 +1,39 @@
 package dmbrazhnikov.edu.test.selenide.pom;
 
-import com.codeborne.selenide.As;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import dmbrazhnikov.edu.test.model.ClientInfo;
-import org.openqa.selenium.support.FindBy;
 
 import java.util.Random;
 
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
+import static dmbrazhnikov.edu.test.selenide.pom.EClientInfoInputField.*;
 
 
 public class ClientInfoPage {
 
-    public final SelenideElement
+    public static final SelenideElement
             header = $(".Order_Header__BZXOb"),
-            nextBtn = $(".Button_Button__ra12g.Button_Middle__1CSJM");
+            nextBtn = $(".Button_Button__ra12g.Button_Middle__1CSJM"),
+            firstNameInputField = $(byAttribute("placeholder", FIRST_NAME.getPlaceholder())),
+            lastNameInputField = $(byAttribute("placeholder", LAST_NAME.getPlaceholder())),
+            addressInputField = $(byAttribute("placeholder", ADDRESS.getPlaceholder())),
+            phoneNumInputField = $(byAttribute("placeholder", PHONE_NUM.getPlaceholder()));
     public final ElementsCollection inputFields = $$(".Input_InputContainer__3NykH");
 
+    public ClientInfoPage() {
+        header.shouldBe(visible).shouldHave(text("Для кого самокат"));
+    }
 
     public void fillInClientInfo(ClientInfo clientInfo) {
-        $(byAttribute("placeholder", "* Имя")).setValue(clientInfo.getFirstName());
-        $(byAttribute("placeholder", "* Фамилия")).setValue(clientInfo.getLastName());
-        $(byAttribute("placeholder", "* Адрес: куда привезти заказ")).setValue(clientInfo.getAddress());
+        firstNameInputField.setValue(clientInfo.getFirstName());
+        lastNameInputField.setValue(clientInfo.getLastName());
+        addressInputField.setValue(clientInfo.getAddress());
         clientInfo.setSubwayStationName(selectRandomSubwayStation());
-        $(byAttribute("placeholder", "* Телефон: на него позвонит курьер")).setValue(clientInfo.getPhoneNum());
+        phoneNumInputField.setValue(clientInfo.getPhoneNum());
     }
 
     /**
@@ -50,8 +57,10 @@ public class ClientInfoPage {
         return new RentParamsPage();
     }
 
-    public boolean inputFieldsAreVisible() {
-        ElementsCollection visibleInputFields = inputFields.filterBy(Condition.visible);
-        return visibleInputFields.size() == inputFields.size();
+    public SelenideElement fillInClientDataField(String placeholder, String input) {
+        SelenideElement inputField = $(byAttribute("placeholder", placeholder));
+        inputField.setValue(input);
+        header.click();
+        return inputField.parent().$(".Input_ErrorMessage__3HvIb");
     }
 }

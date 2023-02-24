@@ -25,7 +25,7 @@ public abstract class BaseUITest {
         System.setProperty("webdriver.chrome.driver", "/opt/homebrew/bin/chromedriver");
         Configuration.browser = "chrome";
         Configuration.baseUrl = "https://qa-scooter.praktikum-services.ru";
-        Configuration.headless = true;
+//        Configuration.headless = true;
         Configuration.browserSize = "1920x1080";
         Configuration.timeout=5000;
         if (Configuration.headless)

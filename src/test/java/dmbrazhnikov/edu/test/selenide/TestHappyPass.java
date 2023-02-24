@@ -1,6 +1,5 @@
 package dmbrazhnikov.edu.test.selenide;
 
-import com.codeborne.selenide.SessionStorage;
 import dmbrazhnikov.edu.test.model.ClientInfo;
 import dmbrazhnikov.edu.test.selenide.pom.ClientInfoPage;
 import dmbrazhnikov.edu.test.selenide.pom.HomePage;
@@ -8,27 +7,29 @@ import dmbrazhnikov.edu.test.selenide.pom.RentParamsPage;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static com.codeborne.selenide.Condition.text;
+import java.util.stream.Stream;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static dmbrazhnikov.edu.test.selenide.pom.EClientInfoInputField.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @DisplayName("Happy pass for order")
 public class TestHappyPass extends BaseUITest {
 
-
     @Order(1)
     @DisplayName("Initiate order wizard")
     @ParameterizedTest
-    @ValueSource(strings = {"small button","big button"})
+    @ValueSource(strings = {"small button", "big button"})
     @SneakyThrows
     void shouldStartOrderWizard(String buttonSize) {
         // Act
         HomePage homePage = open("/", HomePage.class);
-        Thread.sleep(3L);
         ClientInfoPage clientInfoPage;
         if (buttonSize.equalsIgnoreCase("small button"))
             clientInfoPage = homePage.startWithSmallBtn();
@@ -36,10 +37,8 @@ public class TestHappyPass extends BaseUITest {
             clientInfoPage = homePage.startWithBigBtn();
         // Assert
         assertAll("Client info page appearance",
-                () -> clientInfoPage.header.shouldBe(visible),
-                () -> clientInfoPage.header.shouldHave(text("Для кого самокат")),
-                () -> clientInfoPage.inputFieldsAreVisible(),
-                () -> clientInfoPage.nextBtn.shouldBe(visible)
+                () -> assertEquals(clientInfoPage.inputFields.filterBy(visible).size(), 5),
+                () -> ClientInfoPage.nextBtn.shouldBe(visible)
         );
     }
 
@@ -58,5 +57,25 @@ public class TestHappyPass extends BaseUITest {
         RentParamsPage rentParamsPage = clientInfoPage.proceedToRentParams();
         // Assert
         rentParamsPage.header.shouldBe(visible);
+    }
+
+    @ParameterizedTest
+    @Order(3)
+    @DisplayName("Error message is displayed for incorrect input")
+    @MethodSource("provideIncorrectClientInfo")
+    void shouldDisplayErrorMessageForIncorrectInput(String placeholder, String input) {
+        // Act
+        HomePage homePage = open("/", HomePage.class);
+        ClientInfoPage clientInfoPage = homePage.startWithSmallBtn();
+        clientInfoPage.fillInClientDataField(placeholder, input).shouldBe(visible);
+    }
+
+    private static Stream<Arguments> provideIncorrectClientInfo() {
+        return Stream.of(
+                Arguments.of(FIRST_NAME.getPlaceholder(), "123456"),
+                Arguments.of(FIRST_NAME.getPlaceholder(), "bewsdsvb"),
+                Arguments.of(ADDRESS.getPlaceholder(), "-bhbc"),
+                Arguments.of(PHONE_NUM.getPlaceholder(), "ghiuiji")
+        );
     }
 }
