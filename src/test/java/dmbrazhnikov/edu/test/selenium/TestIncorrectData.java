@@ -1,4 +1,4 @@
-package dmbrazhnikov.edu.test.selenium.sprint4task;
+package dmbrazhnikov.edu.test.selenium;
 
 import dmbrazhnikov.edu.test.model.ClientInfo;
 import dmbrazhnikov.edu.test.model.ScooterColor;
@@ -36,11 +36,6 @@ public class TestIncorrectData extends BaseUITest {
         driver.get(BASE_URL);
         HomePage homePage = new HomePage(driver);
         homePage.initiateOrderWithSmallBtn();
-    }
-
-    @AfterEach
-    void tearDown() {
-        driver.quit();
     }
 
     @Test
@@ -109,7 +104,7 @@ public class TestIncorrectData extends BaseUITest {
             rentParamsPage.doSendKeys(DELIVERY_DATE_INPUT, dateInPastLiteral);
             rentParamsPage.doSendKeys(DELIVERY_DATE_INPUT, Keys.ENTER);
             rentParamsPage.setRentalPeriod("двое суток");
-            rentParamsPage.setColorCheckbox(ScooterColor.BLACK);
+            rentParamsPage.setColorCheckbox(ScooterColor.BLACK_PEARL);
             rentParamsPage.doSendKeys(RentParamsPage.COMMENTARY_INPUT, "Комментарий");
             rentParamsPage.doClick(RentParamsPage.PLACE_ORDER_BTN);
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package dmbrazhnikov.edu.test.selenium.sprint4task;
+package dmbrazhnikov.edu.test.selenium;
 
 import dmbrazhnikov.edu.test.model.ClientInfo;
 import dmbrazhnikov.edu.test.model.ScooterColor;
@@ -55,7 +55,7 @@ public class TestHappyPass extends BaseUITest {
         // Act
         rentParamsPage.setCurrentDateAsDeliveryDate();
         rentParamsPage.setRentalPeriod("сутки");
-        rentParamsPage.setColorCheckbox(ScooterColor.GREY);
+        rentParamsPage.setColorCheckbox(ScooterColor.GREY_HOPELESSNESS);
         rentParamsPage.doSendKeys(RentParamsPage.COMMENTARY_INPUT, "Комментарий");
         rentParamsPage.doClick(RentParamsPage.PLACE_ORDER_BTN);
         Thread.sleep(2000L);

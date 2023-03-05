@@ -1,4 +1,4 @@
-package dmbrazhnikov.edu.test.selenium.sprint4task;
+package dmbrazhnikov.edu.test.selenium;
 
 import dmbrazhnikov.edu.test.selenium.pom.HomePage;
 import dmbrazhnikov.edu.test.selenium.BaseUITest;

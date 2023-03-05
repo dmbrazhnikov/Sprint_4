@@ -1,5 +1,6 @@
 package dmbrazhnikov.edu.test.selenide;
 
+import com.codeborne.selenide.SelenideElement;
 import dmbrazhnikov.edu.test.model.ClientInfo;
 import dmbrazhnikov.edu.test.selenide.pom.ClientInfoPage;
 import dmbrazhnikov.edu.test.selenide.pom.HomePage;
@@ -19,6 +20,7 @@ import static dmbrazhnikov.edu.test.selenide.pom.EClientInfoInputField.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("Happy pass for order")
 public class TestHappyPass extends BaseUITest {
 
@@ -42,7 +44,6 @@ public class TestHappyPass extends BaseUITest {
         );
     }
 
-    @Disabled
     @Test
     @Order(2)
     @DisplayName("Correct client info is accepted")
@@ -52,11 +53,10 @@ public class TestHappyPass extends BaseUITest {
                 "Одесса, ул. Малая Арнаутская", "+79991112233");
         // Act
         HomePage homePage = open("/", HomePage.class);
+        homePage.getRidOfCookies();
         ClientInfoPage clientInfoPage = homePage.startWithSmallBtn();
         clientInfoPage.fillInClientInfo(clientInfo);
-        RentParamsPage rentParamsPage = clientInfoPage.proceedToRentParams();
-        // Assert
-        rentParamsPage.header.shouldBe(visible);
+        clientInfoPage.proceedToRentParams(); // assert inside
     }
 
     @ParameterizedTest
@@ -66,8 +66,11 @@ public class TestHappyPass extends BaseUITest {
     void shouldDisplayErrorMessageForIncorrectInput(String placeholder, String input) {
         // Act
         HomePage homePage = open("/", HomePage.class);
+        homePage.getRidOfCookies();
         ClientInfoPage clientInfoPage = homePage.startWithSmallBtn();
-        clientInfoPage.fillInClientDataField(placeholder, input).shouldBe(visible);
+        SelenideElement errorMsg = clientInfoPage.fillInClientDataField(placeholder, input);
+        // Assert
+        errorMsg.shouldBe(visible);
     }
 
     private static Stream<Arguments> provideIncorrectClientInfo() {
@@ -77,5 +80,25 @@ public class TestHappyPass extends BaseUITest {
                 Arguments.of(ADDRESS.getPlaceholder(), "-bhbc"),
                 Arguments.of(PHONE_NUM.getPlaceholder(), "ghiuiji")
         );
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Rent params are accepted")
+    void shouldAcceptRentParams() {
+        // Arrange
+        ClientInfo clientInfo = new ClientInfo("Митхун", "Чакраборти",
+                "Одесса, ул. Малая Арнаутская", "+79991112233");
+        // Act
+        HomePage homePage = open("/", HomePage.class);
+        homePage.getRidOfCookies();
+        ClientInfoPage clientInfoPage = homePage.startWithSmallBtn();
+        clientInfoPage.fillInClientInfo(clientInfo);
+        RentParamsPage rentParamsPage = clientInfoPage.proceedToRentParams();
+        rentParamsPage.setCurrentDateAsDeliveryDate();
+        rentParamsPage.selectRentPeriod("двое суток");
+        rentParamsPage.setColorCheckbox("серая безысходность");
+        rentParamsPage.setCommentary("А я всё чаще замечаю, что меня как будто кто-то подменил...");
+        rentParamsPage.finishOrder();
     }
 }

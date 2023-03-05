@@ -46,8 +46,8 @@ public class ClientInfoPage {
         ElementsCollection subwayStations = $$(".Order_SelectOption__82bhS");
         if (subwayStations.size() > 0) {
             SelenideElement subwayStation = subwayStations.get(new Random().nextInt(subwayStations.size()));
-            subwayStation.scrollTo().click();
             subwayStationName = subwayStation.getText();
+            subwayStation.scrollIntoView(true).click();
         }
         return subwayStationName;
     }

@@ -44,7 +44,7 @@ public class RentParamsPage extends BasePage {
 
     public void setColorCheckbox(ScooterColor color) {
         doClick(
-            By.xpath("//input[@type='checkbox' and @id='" + color.name().toLowerCase() + "']")
+            By.xpath("//input[@type='checkbox' and @id='" + color.name() + "']")
         );
     }
 
